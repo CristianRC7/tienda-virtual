@@ -56,6 +56,13 @@ const Navbar = () => {
             >
               Productos
             </a>
+            <a 
+              href="#contactanos" 
+              className="text-gray-600 relative hover:text-gray-900 transition-all duration-300 hover:after:scale-x-100 after:absolute after:w-full after:scale-x-0 after:h-[2px] after:bg-gray-900 after:bottom-0 after:left-0 after:transition-transform after:duration-300"
+              onClick={(e) => handleLinkClick(e, 'contactanos')}
+            >
+              Contactanos
+            </a>
           </div>
           <div className="md:hidden flex items-center">
             <button onClick={toggleMenu} className="text-gray-600 hover:text-gray-900 transition-colors duration-300">
@@ -89,6 +96,13 @@ const Navbar = () => {
               onClick={(e) => handleLinkClick(e, 'productos')}
             >
               Productos
+            </a>
+            <a 
+              href="#contactanos" 
+              className="block px-3 py-2 text-base font-medium text-gray-600 relative hover:text-gray-900 transition-all duration-300 hover:after:scale-x-100 after:absolute after:w-full after:scale-x-0 after:h-[2px] after:bg-gray-900 after:bottom-0 after:left-0 after:transition-transform after:duration-300"
+              onClick={(e) => handleLinkClick(e, 'contactanos')}
+            >
+              Contactanos
             </a>
           </div>
         </div>
