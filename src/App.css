@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  scroll-padding-top: 4rem; /* Ajusta este valor según la altura del navbar */
+}
