@@ -1,33 +1,38 @@
 import React from 'react'
-import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa'
+import { FaFacebookF, FaInstagram, FaTiktok } from 'react-icons/fa'
 
 const Footer = () => {
   return (
     <footer id='contactanos' className="bg-gray-800 text-white">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Elegancia</h3>
-            <p className="text-gray-300">Ofreciendo la mejor moda desde 2010</p>
+          <div className="bg-gray-700 p-6 rounded-lg shadow-lg">
+            <h3 className="text-lg font-semibold mb-4">Horarios de Atención</h3>
+            <p className="text-gray-300 mb-2">Lunes a Viernes: 9:00 AM - 6:00 PM</p>
+            <p className="text-gray-300">Sábados: 10:00 AM - 4:00 PM</p>
+            <p className="text-gray-300">Domingos: Cerrado</p>
           </div>
-          <div>
+          
+          <div className="bg-gray-700 p-6 rounded-lg shadow-lg">
             <h3 className="text-lg font-semibold mb-4">Contacto</h3>
-            <p className="text-gray-300">Teléfono: (123) 456-7890</p>
-            <p className="text-gray-300">Email: info@elegancia.com</p>
+            <p className="text-gray-300 mb-2">Teléfono: <a href="tel:(123) 456-7890" className="hover:text-gray-200">(123) 456-7890</a></p>
+            <p className="text-gray-300">Email: <a href="mailto:info@elegancia.com" className="hover:text-gray-200">info@elegancia.com</a></p>
           </div>
-          <div>
+          
+          <div className="bg-gray-700 p-6 rounded-lg shadow-lg">
             <h3 className="text-lg font-semibold mb-4">Síguenos</h3>
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 mb-4">
               <a href="#" className="text-gray-300 hover:text-white" aria-label="Facebook">
-                <FaFacebookF className="h-6 w-6" />
+                <FaFacebookF className="h-7 w-7" />
               </a>
               <a href="#" className="text-gray-300 hover:text-white" aria-label="Instagram">
-                <FaInstagram className="h-6 w-6" />
+                <FaInstagram className="h-7 w-7" />
               </a>
-              <a href="#" className="text-gray-300 hover:text-white" aria-label="Twitter">
-                <FaTwitter className="h-6 w-6" />
+              <a href="#" className="text-gray-300 hover:text-white" aria-label="TikTok">
+                <FaTiktok className="h-7 w-7" />
               </a>
             </div>
+            <p className="text-gray-300 text-sm">¡Síguenos para estar al tanto de nuestras últimas novedades y promociones!</p>
           </div>
         </div>
       
@@ -44,7 +49,7 @@ const Footer = () => {
           ></iframe>
         </div>
         <div className="mt-8 border-t border-gray-700 pt-8 text-center">
-          <p className="text-gray-300">&copy; 2024 Elegancia. Todos los derechos reservados.</p>
+          <p className="text-gray-300 text-sm">&copy; 2024 Elegancia. Todos los derechos reservados.</p>
         </div>
       </div>
     </footer>

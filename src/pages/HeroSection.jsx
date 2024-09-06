@@ -1,15 +1,36 @@
-import React from 'react';
-import portada from '../images/portada.png';
+import React, { useState, useEffect } from 'react';
+import portada1 from '../images/portada.png';
+import portada2 from '../images/portada2.png';
+import portada3 from '../images/portada.png';
 
 const HeroSection = () => {
+  const images = [portada1, portada2, portada3];
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [transitioning, setTransitioning] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTransitioning(true);
+      setTimeout(() => {
+        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+        setTransitioning(false);
+      }, 1000); 
+    }, 7000); 
+
+    return () => clearInterval(interval);
+  }, [images.length]);
+
   return (
-    <section id="inicio" className="relative bg-gray-900 text-white min-h-screen">
+    <section id="inicio" className="relative bg-gray-900 text-white min-h-screen overflow-hidden">
       <div className="absolute inset-0">
-        <img
-          className="w-full h-full object-cover"
-          src={portada}
-          alt="Imagen de portada de la tienda"
-        />
+        {images.map((image, index) => (
+          <img
+            key={index}
+            src={image}
+            alt={`Imagen ${index}`}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${index === currentImageIndex ? 'opacity-100' : 'opacity-0'}`}
+          />
+        ))}
         <div className="absolute inset-0 bg-gray-900 opacity-50"></div>
       </div>
       <div className="relative flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
