@@ -1,0 +1,32 @@
+-- Crear la base de datos
+CREATE DATABASE tiendavirtualdb;
+
+-- Crear la tabla de categorías
+CREATE TABLE categorias (
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  nombre_categoria VARCHAR(30) NOT NULL
+);
+
+-- Crear la tabla de marcas
+CREATE TABLE marcas (
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  nombre_marca VARCHAR(50) NOT NULL
+);
+
+-- Crear la tabla de productos
+CREATE TABLE productos (
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  nombre_producto TEXT NOT NULL,
+  id_categoria INT,
+  id_marca INT,
+  FOREIGN KEY (id_categoria) REFERENCES categorias(id),
+  FOREIGN KEY (id_marca) REFERENCES marcas(id)
+);
+
+-- Crear la tabla de imágenes
+CREATE TABLE imagenes (
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  id_producto INT,
+  url_imagen VARCHAR(255) NOT NULL,
+  FOREIGN KEY (id_producto) REFERENCES productos(id)
+);
