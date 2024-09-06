@@ -1,9 +1,9 @@
-import React from 'react'
-import portada from '../images/portada.png'
+import React from 'react';
+import portada from '../images/portada.png';
 
 const HeroSection = () => {
   return (
-    <section id="inicio" className="relative bg-gray-900 text-white">
+    <section id="inicio" className="relative bg-gray-900 text-white min-h-screen">
       <div className="absolute inset-0">
         <img
           className="w-full h-full object-cover"
@@ -12,12 +12,16 @@ const HeroSection = () => {
         />
         <div className="absolute inset-0 bg-gray-900 opacity-50"></div>
       </div>
-      <div className="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
-        <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">Bienvenido a Elegancia</h1>
-        <p className="mt-6 text-xl max-w-3xl">Descubre las últimas tendencias en moda y encuentra tu estilo único con nuestra colección exclusiva de ropa y accesorios.</p>
+      <div className="relative flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-3xl">
+          <h1 className="text-5xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl">Bienvenido a Elegancia</h1>
+          <p className="mt-8 text-2xl sm:text-3xl lg:text-4xl max-w-3xl mx-auto">
+            Descubre las últimas tendencias en moda y encuentra tu estilo único con nuestra colección exclusiva de ropa y accesorios.
+          </p>
+        </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default HeroSection
+export default HeroSection;

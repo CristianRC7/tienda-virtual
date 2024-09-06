@@ -12,6 +12,9 @@ const AboutSection = () => {
           <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
             Desde 2010, nos hemos dedicado a ofrecer la mejor calidad en ropa y accesorios. Nuestra pasión por la moda y el compromiso con nuestros clientes nos han convertido en un referente en el mundo de la moda.
           </p>
+          <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+            Nos enorgullece contar con un equipo de diseñadores talentosos y expertos en tendencias, que trabajan constantemente para traer lo mejor en moda a nuestros clientes. Además, nuestros procesos de producción son sostenibles y comprometidos con el medio ambiente.
+          </p>
         </div>
       </div>
     </section>

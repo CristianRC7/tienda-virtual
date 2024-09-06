@@ -12,7 +12,7 @@ const ProductsSection = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [noResults, setNoResults] = useState(false)
 
-  const itemsPerPage = 9
+  const itemsPerPage = 6
   const startIndex = (currentPage - 1) * itemsPerPage
   const selectedProducts = productos.slice(startIndex, startIndex + itemsPerPage)
   const totalPages = Math.ceil(productos.length / itemsPerPage)
