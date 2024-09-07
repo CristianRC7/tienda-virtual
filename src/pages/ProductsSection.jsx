@@ -1,62 +1,62 @@
-import React, { useState, useEffect } from 'react'
-import { MessageCircle } from 'lucide-react'
-import Modal from '../components/Modal'
-import CONFIG from '../config'
+import { useState, useEffect } from 'react';
+import { MessageCircle, ShoppingCart } from 'lucide-react';
+import Modal from '../components/Modal';
+import CONFIG from '../config';
 
 const ProductsSection = () => {
-  const [productos, setProductos] = useState([])
-  const [currentPage, setCurrentPage] = useState(1)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [selectedImages, setSelectedImages] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [noResults, setNoResults] = useState(false)
+  const [productos, setProductos] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [noResults, setNoResults] = useState(false);
 
-  const itemsPerPage = 6
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const selectedProducts = productos.slice(startIndex, startIndex + itemsPerPage)
-  const totalPages = Math.ceil(productos.length / itemsPerPage)
+  const itemsPerPage = 6;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const selectedProducts = productos.slice(startIndex, startIndex + itemsPerPage);
+  const totalPages = Math.ceil(productos.length / itemsPerPage);
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     fetch(`${CONFIG.API_URL}/get_products.php?search=${encodeURIComponent(searchTerm)}`)
       .then((response) => response.json())
       .then((data) => {
-        setProductos(data)
-        setLoading(false)
-        setNoResults(data.length === 0)
+        setProductos(data);
+        setLoading(false);
+        setNoResults(data.length === 0);
       })
       .catch((error) => {
-        console.error('Error fetching products:', error)
-        setLoading(false)
-      })
-  }, [searchTerm])
+        console.error('Error fetching products:', error);
+        setLoading(false);
+      });
+  }, [searchTerm]);
 
   const handlePageChange = (direction) => {
     if (direction === 'prev' && currentPage > 1) {
-      setCurrentPage(currentPage - 1)
+      setCurrentPage(currentPage - 1);
     } else if (direction === 'next' && currentPage < totalPages) {
-      setCurrentPage(currentPage + 1)
+      setCurrentPage(currentPage + 1);
     }
-  }
+  };
 
   const openModal = (images) => {
-    setSelectedImages(images)
-    setIsModalOpen(true)
-  }
+    setSelectedImages(images);
+    setIsModalOpen(true);
+  };
 
   const closeModal = () => {
-    setIsModalOpen(false)
-    setSelectedImages([])
-  }
+    setIsModalOpen(false);
+    setSelectedImages([]);
+  };
 
   const capitalizeWords = (str) => {
     return str
       .toLowerCase()
       .split(' ')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ')
-  }
+      .join(' ');
+  };
 
   return (
     <section id="productos" className="py-12 bg-gray-100">
@@ -100,8 +100,17 @@ const ProductsSection = () => {
                   />
                   <div className="p-6">
                     <h3 className="text-lg font-semibold text-gray-900">{capitalizeWords(producto.nombre_producto)}</h3>
-                    <p className="text-gray-600">{producto.nombre_marca}</p>
+                    <p className="text-gray-600">{capitalizeWords(producto.nombre_marca)}</p>
                     <div className="mt-4 flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <button
+                          onClick={() => alert(`Añadido al carrito: ${producto.nombre_producto}`)}
+                          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 transition-colors duration-300"
+                        >
+                          <ShoppingCart className="h-5 w-5 mr-2" />
+                          Añadir al Carrito
+                        </button>
+                      </div>
                       <a
                         href={`https://wa.me/59175057788?text=Me%20interesa%20el%20producto%20${encodeURIComponent(producto.nombre_producto)}`}
                         target="_blank"
@@ -139,7 +148,7 @@ const ProductsSection = () => {
 
       <Modal isOpen={isModalOpen} onClose={closeModal} images={selectedImages} />
     </section>
-  )
-}
+  );
+};
 
-export default ProductsSection
+export default ProductsSection;

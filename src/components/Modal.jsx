@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const Modal = ({ isOpen, onClose, images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -28,12 +28,12 @@ const Modal = ({ isOpen, onClose, images }) => {
           <div className="w-full mb-4 flex justify-center">
             <img
               src={`http://localhost/tienda-virtual-backend/images/${images[currentIndex]}`}
-              alt="Producto"
+              alt= "Imagen del producto"
               className="w-72 h-72 object-cover rounded-lg shadow-md"
             />
           </div>
 
-          {/* Controles de navegación */}
+          {/* Controles de navegacion */}
           <div className="flex justify-between items-center w-full mt-4">
             <button
               onClick={handlePrevImage}

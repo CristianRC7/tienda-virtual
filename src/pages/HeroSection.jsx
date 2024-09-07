@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import portada1 from '../images/portada.png';
-import portada2 from '../images/portada2.png';
-import portada3 from '../images/portada.png';
+import portada2 from '../images/portada2.jpeg';
+import portada3 from '../images/portada3.jpg';
 
 const HeroSection = () => {
   const images = [portada1, portada2, portada3];

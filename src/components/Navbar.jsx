@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { ShoppingBag, Menu, X } from 'lucide-react'
 
 const Navbar = () => {
