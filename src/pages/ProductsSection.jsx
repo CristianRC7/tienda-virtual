@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { MessageCircle, ShoppingCart } from 'lucide-react';
+import Swal from 'sweetalert2';
 import Modal from '../components/Modal';
 import CONFIG from '../config';
 
@@ -58,6 +59,20 @@ const ProductsSection = () => {
       .join(' ');
   };
 
+  const addToCart = (producto) => {
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    cartItems.push(producto);
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+    Swal.fire({
+      title: 'Añadido al carrito',
+      text: `${producto.nombre_producto} ha sido añadido al carrito.`,
+      icon: 'success',
+      confirmButtonText: 'OK',
+      timer: 2000,
+    });
+  };
+
   return (
     <section id="productos" className="py-12 bg-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -104,11 +119,11 @@ const ProductsSection = () => {
                     <div className="mt-4 flex items-center justify-between">
                       <div className="flex items-center space-x-4">
                         <button
-                          onClick={() => alert(`Añadido al carrito: ${producto.nombre_producto}`)}
+                          onClick={() => addToCart(producto)}
                           className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 transition-colors duration-300"
                         >
                           <ShoppingCart className="h-5 w-5 mr-2" />
-                          Añadir al Carrito
+                          Agregar Carrito
                         </button>
                       </div>
                       <a

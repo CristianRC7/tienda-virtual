@@ -1,30 +1,35 @@
-import { useState } from 'react'
-import { ShoppingBag, Menu, X } from 'lucide-react'
+import { useState } from 'react';
+import { ShoppingBag, Menu, X, ShoppingCart } from 'lucide-react';
+import CartModal from './CartModal';
 
 const Navbar = () => {
-  const [menuAbierto, setMenuAbierto] = useState(false)
+  const [menuAbierto, setMenuAbierto] = useState(false);
+  const [isCartModalOpen, setIsCartModalOpen] = useState(false);
 
-  const toggleMenu = () => setMenuAbierto(!menuAbierto)
+  const toggleMenu = () => setMenuAbierto(!menuAbierto);
 
   const handleLinkClick = (e, targetId) => {
-    e.preventDefault()
-    const targetElement = document.getElementById(targetId)
+    e.preventDefault();
+    const targetElement = document.getElementById(targetId);
 
     if (targetElement) {
-      const offset = 64
-      const elementPosition = targetElement.getBoundingClientRect().top
-      const offsetPosition = elementPosition + window.scrollY - offset
+      const offset = 64;
+      const elementPosition = targetElement.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - offset;
 
       window.scrollTo({
         top: offsetPosition,
         behavior: 'smooth',
-      })
+      });
 
       if (menuAbierto) {
-        setMenuAbierto(false)
+        setMenuAbierto(false);
       }
     }
-  }
+  };
+
+  const openCartModal = () => setIsCartModalOpen(true);
+  const closeCartModal = () => setIsCartModalOpen(false);
 
   return (
     <nav className="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
@@ -64,8 +69,12 @@ const Navbar = () => {
               Contactanos
             </a>
           </div>
-          <div className="md:hidden flex items-center">
-            <button onClick={toggleMenu} className="text-gray-600 hover:text-gray-900 transition-colors duration-300">
+          <div className="flex items-center space-x-4">
+            <ShoppingCart 
+              className="h-8 w-8 text-gray-800 cursor-pointer" 
+              onClick={openCartModal} 
+            />
+            <button onClick={toggleMenu} className="md:hidden text-gray-600 hover:text-gray-900 transition-colors duration-300">
               <div className={`transform transition-transform duration-300 ease-in-out ${menuAbierto ? 'rotate-180 scale-110' : 'rotate-0 scale-100'}`}>
                 {menuAbierto ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </div>
@@ -107,8 +116,9 @@ const Navbar = () => {
           </div>
         </div>
       )}
+      <CartModal isOpen={isCartModalOpen} onClose={closeCartModal} />
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
