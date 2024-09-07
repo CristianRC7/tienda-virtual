@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 import CONFIG from '../config';
 
@@ -28,7 +29,7 @@ const Modal = ({ isOpen, onClose, images }) => {
           <div className="w-full mb-4 flex justify-center">
             <img
               src={`${CONFIG.API_URL}/images/${images[currentIndex]}`}
-              alt= "Imagen del producto"
+              alt="Imagen del producto"
               className="w-72 h-72 object-cover rounded-lg shadow-md"
             />
           </div>
@@ -55,6 +56,12 @@ const Modal = ({ isOpen, onClose, images }) => {
       </div>
     </div>
   );
+};
+
+Modal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  images: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default Modal;

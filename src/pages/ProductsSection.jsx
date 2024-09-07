@@ -66,11 +66,12 @@ const ProductsSection = () => {
   
     if (productExists) {
       Swal.fire({
-        title: 'Producto ya se encuentra en el carrito',
+        title: 'Ya se encuentra en el carrito',
         text: `${producto.nombre_producto} ya ha sido añadido al carrito.`,
         icon: 'info',
         confirmButtonText: 'OK',
-        timer: 3000,
+        confirmButtonColor: '#007bff',
+        timer: 4000,
       });
     } else {
       cartItems.push(producto);
@@ -81,7 +82,8 @@ const ProductsSection = () => {
         text: `${producto.nombre_producto} ha sido añadido al carrito.`,
         icon: 'success',
         confirmButtonText: 'OK',
-        timer: 3000,
+        confirmButtonColor: '#007bff',
+        timer: 4000,
       });
     }
   };
