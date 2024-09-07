@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import { X, Trash, MessageCircle } from 'lucide-react';
+import CONFIG from '../config';
 
 const CartModal = ({ isOpen, onClose }) => {
   const [cartItems, setCartItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const itemsPerPage = 4; // Definimos 4 productos por página
+  const itemsPerPage = 4; 
 
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem('cartItems')) || [];
     setCartItems(storedCart);
 
-    // Deshabilitar scroll cuando el modal está abierto
     if (isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -19,27 +19,29 @@ const CartModal = ({ isOpen, onClose }) => {
     }
 
     return () => {
-      document.body.style.overflow = ''; // Restablecemos el scroll al desmontar el componente
+      document.body.style.overflow = ''; 
     };
   }, [isOpen]);
 
-  // Función para eliminar un item del carrito
   const removeFromCart = (indexToRemove) => {
     const updatedCartItems = cartItems.filter((_, index) => index !== indexToRemove);
     setCartItems(updatedCartItems);
     localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
   };
 
-  // Función para generar el mensaje de WhatsApp
+  const clearCart = () => {
+    setCartItems([]);
+    localStorage.removeItem('cartItems');
+  };
+
   const handleWhatsAppClick = () => {
     const message = `Quiero más detalles de estos productos:\n${cartItems
       .map(item => `- ${item.nombre_producto} (${item.nombre_marca})`)
       .join('\n')}`;
     const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/59175057788?text=${encodedMessage}`, '_blank');
+    window.open(`${CONFIG.WHATSSPP_URL}?text=${encodedMessage}`, '_blank');
   };
 
-  // Función para manejar la paginación
   const handlePageChange = (direction) => {
     if (direction === 'prev' && currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -48,7 +50,6 @@ const CartModal = ({ isOpen, onClose }) => {
     }
   };
 
-  // Obtener los productos de la página actual
   const currentItems = cartItems.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
@@ -84,6 +85,12 @@ const CartModal = ({ isOpen, onClose }) => {
                 >
                   <MessageCircle className="h-5 w-5 mr-2" />
                   Consultar via WhatsApp
+                </button>
+                <button
+                  onClick={clearCart}
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-500 transition-colors duration-300"
+                >
+                  Vaciar Carrito
                 </button>
               </div>
               <div className="flex justify-between mt-4">

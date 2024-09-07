@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import CONFIG from '../config';
 
 const Modal = ({ isOpen, onClose, images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -24,16 +25,14 @@ const Modal = ({ isOpen, onClose, images }) => {
         </button>
 
         <div className="p-4">
-          {/* Imagen del producto */}
           <div className="w-full mb-4 flex justify-center">
             <img
-              src={`http://localhost/tienda-virtual-backend/images/${images[currentIndex]}`}
+              src={`${CONFIG.API_URL}/images/${images[currentIndex]}`}
               alt= "Imagen del producto"
               className="w-72 h-72 object-cover rounded-lg shadow-md"
             />
           </div>
 
-          {/* Controles de navegacion */}
           <div className="flex justify-between items-center w-full mt-4">
             <button
               onClick={handlePrevImage}
@@ -49,7 +48,6 @@ const Modal = ({ isOpen, onClose, images }) => {
             </button>
           </div>
 
-          {/* Indicador de imagen actual */}
           <div className="mt-4 text-center text-sm text-gray-600">
             Imagen {currentIndex + 1} de {images.length}
           </div>

@@ -61,18 +61,31 @@ const ProductsSection = () => {
 
   const addToCart = (producto) => {
     const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    cartItems.push(producto);
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-
-    Swal.fire({
-      title: 'Añadido al carrito',
-      text: `${producto.nombre_producto} ha sido añadido al carrito.`,
-      icon: 'success',
-      confirmButtonText: 'OK',
-      timer: 2000,
-    });
+  
+    const productExists = cartItems.some(item => item.id === producto.id);
+  
+    if (productExists) {
+      Swal.fire({
+        title: 'Producto ya se encuentra en el carrito',
+        text: `${producto.nombre_producto} ya ha sido añadido al carrito.`,
+        icon: 'info',
+        confirmButtonText: 'OK',
+        timer: 3000,
+      });
+    } else {
+      cartItems.push(producto);
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  
+      Swal.fire({
+        title: 'Añadido al carrito',
+        text: `${producto.nombre_producto} ha sido añadido al carrito.`,
+        icon: 'success',
+        confirmButtonText: 'OK',
+        timer: 3000,
+      });
+    }
   };
-
+  
   return (
     <section id="productos" className="py-12 bg-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -127,7 +140,7 @@ const ProductsSection = () => {
                         </button>
                       </div>
                       <a
-                        href={`https://wa.me/59175057788?text=Me%20interesa%20el%20producto%20${encodeURIComponent(producto.nombre_producto)}`}
+                        href={`${CONFIG.WHATSSPP_URL}?text=Me%20interesa%20el%20producto%20${encodeURIComponent(producto.nombre_producto)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 transition-colors duration-300"
