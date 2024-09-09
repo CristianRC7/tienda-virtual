@@ -13,13 +13,22 @@ CREATE TABLE marcas (
   nombre_marca VARCHAR(50) NOT NULL
 );
 
+-- Crear la tabla de generos
+CREATE TABLE generos (
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  genero VARCHAR(50) NOT NULL
+);
+
+
 -- Crear la tabla de productos
 CREATE TABLE productos (
   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   nombre_producto TEXT NOT NULL,
   id_categoria INT,
+  id_genero INT,
   id_marca INT,
   FOREIGN KEY (id_categoria) REFERENCES categorias(id),
+  FOREIGN KEY (id_genero) REFERENCES generos(id),
   FOREIGN KEY (id_marca) REFERENCES marcas(id)
 );
 
@@ -30,3 +39,19 @@ CREATE TABLE imagenes (
   url_imagen VARCHAR(255) NOT NULL,
   FOREIGN KEY (id_producto) REFERENCES productos(id)
 );
+
+
+
+-- Poblado para lo productos
+
+INSERT INTO productos (nombre_producto, id_categoria, id_genero, id_marca) VALUES
+('Polera blanca', 1, 1, 1),
+('Camisa de cuadros', 2, 1, 2),
+('Pantalón negro', 3, 2, 3),
+('Vestido rojo', 4, 2, 4),
+('Polera azul', 1, 1, 2),
+('Camisa blanca', 2, 1, 1),
+('Pantalón gris', 3, 2, 3),
+('Vestido negro', 4, 2, 4),
+('Polera verde', 1, 1, 1),
+('Camisa negra', 2, 1, 2);
