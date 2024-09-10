@@ -96,7 +96,7 @@ const ProductsSection = () => {
         <div className="mb-6">
           <input
             type="text"
-            placeholder="Buscar por nombre, marca o categoría"
+            placeholder="Buscar por nombre, marca, categoría o genero"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-md"
@@ -130,7 +130,8 @@ const ProductsSection = () => {
                   />
                   <div className="p-6">
                     <h3 className="text-lg font-semibold text-gray-900">{capitalizeWords(producto.nombre_producto)}</h3>
-                    <p className="text-gray-600">{capitalizeWords(producto.nombre_marca)}</p>
+                    <p className="text-gray-600">{capitalizeWords(`${producto.nombre_marca} - ${producto.genero}`)}</p>
+
                     <div className="mt-4 flex items-center justify-between">
                       <div className="flex items-center space-x-4">
                         <button
