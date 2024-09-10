@@ -6,16 +6,11 @@ import portada3 from '../images/portada3.jpg';
 const HeroSection = () => {
   const images = [portada1, portada2, portada3];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [transitioning, setTransitioning] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTransitioning(true);
-      setTimeout(() => {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-        setTransitioning(false);
-      }, 1000); 
-    }, 7000); 
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 5000); 
 
     return () => clearInterval(interval);
   }, [images.length]);

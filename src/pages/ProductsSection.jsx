@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { MessageCircle, ShoppingCart } from 'lucide-react';
 import Swal from 'sweetalert2';
 import Modal from '../components/Modal';
+import Carousel from '../components/Carousel';
 import CONFIG from '../config';
 
 const ProductsSection = () => {
@@ -122,12 +123,19 @@ const ProductsSection = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {selectedProducts.map((producto) => (
                 <div key={producto.id} className="bg-white rounded-lg shadow-md overflow-hidden">
-                  <img
-                    className="w-full h-64 object-cover cursor-pointer"
-                    src={`${CONFIG.API_URL}/images/${producto.imagenes[0]}`}
-                    alt={producto.nombre_producto}
-                    onClick={() => openModal(producto.imagenes)}
-                  />
+                  {producto.imagenes.length > 1 ? (
+                    <Carousel
+                      images={producto.imagenes.map(image => `${CONFIG.API_URL}/images/${image}`)}
+                      onImageClick={() => openModal(producto.imagenes)}
+                    />
+                  ) : (
+                    <img
+                      className="w-full h-64 object-cover cursor-pointer"
+                      src={`${CONFIG.API_URL}/images/${producto.imagenes[0]}`}
+                      alt={producto.nombre_producto}
+                      onClick={() => openModal(producto.imagenes)}
+                    />
+                  )}
                   <div className="p-6">
                     <h3 className="text-lg font-semibold text-gray-900">{capitalizeWords(producto.nombre_producto)}</h3>
                     <p className="text-gray-600">{capitalizeWords(`${producto.nombre_marca} - ${producto.genero}`)}</p>
