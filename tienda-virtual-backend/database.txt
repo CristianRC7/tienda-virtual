@@ -55,3 +55,12 @@ INSERT INTO productos (nombre_producto, id_categoria, id_genero, id_marca) VALUE
 ('Vestido negro', 4, 2, 4),
 ('Polera verde', 1, 1, 1),
 ('Camisa negra', 2, 1, 2);
+
+-- Crear la tabla de Usuarios
+
+CREATE TABLE usuarios(
+  id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  usuario varchar(50) not null,
+  nombre_completo varchar(60) not null,
+  contrasena varchar(50) not null
+);
