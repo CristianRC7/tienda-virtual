@@ -15,7 +15,6 @@ $resultado = $stmt->get_result();
 if ($resultado->num_rows > 0) {
     echo json_encode(['success' => true]);
 } else {
-    // Credenciales incorrectas
     echo json_encode(['success' => false]);
 }
 
