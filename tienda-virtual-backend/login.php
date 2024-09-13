@@ -4,7 +4,7 @@ include_once 'cors.php';
 
 $input = json_decode(file_get_contents("php://input"), true);
 $usuario = $input['usuario'];
-$contrasena = $input['contrasena'];
+$contrasena = md5($input['contrasena']); // Hash the input password with MD5
 
 $sql = "SELECT * FROM usuarios WHERE usuario = ? AND contrasena = ?";
 $stmt = $conexion->prepare($sql);
