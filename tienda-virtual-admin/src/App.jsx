@@ -1,8 +1,10 @@
+// src/App.jsx
 import React from 'react';
-import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import CreateCategory from './pages/CreateCategory';
+import Layout from './components/Layout';
 
 function App() {
   return (
@@ -10,7 +12,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
+        <Route path="/createcategory" element={<Layout><CreateCategory /></Layout>} />
       </Routes>
     </Router>
   );
