@@ -4,6 +4,7 @@ include_once 'cors.php';
 
 $input = json_decode(file_get_contents("php://input"), true);
 $usuario = $input['usuario'];
+$nombre_completo = $input['nombre_completo'];
 $contrasena = md5($input['contrasena']); 
 
 $sqlCheck = "SELECT * FROM usuarios WHERE usuario = ?";
@@ -15,9 +16,9 @@ $resultCheck = $stmtCheck->get_result();
 if ($resultCheck->num_rows > 0) {
     echo json_encode(['success' => false, 'message' => 'El usuario ya está registrado.']);
 } else {
-    $sql = "INSERT INTO usuarios (usuario, contrasena) VALUES (?, ?)";
+    $sql = "INSERT INTO usuarios (usuario, nombre_completo, contrasena) VALUES (?, ?, ?)";
     $stmt = $conexion->prepare($sql);
-    $stmt->bind_param('ss', $usuario, $contrasena);
+    $stmt->bind_param('sss', $usuario, $nombre_completo, $contrasena);
     
     if ($stmt->execute()) {
         echo json_encode(['success' => true, 'message' => 'Usuario creado exitosamente.']);

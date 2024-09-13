@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 import CONFIG from '../Config';
-
+import LoadingButton from '../components/LoadingButton';
 function CreateBrand() {
   const [brandName, setBrandName] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const checkResponse = await fetch(`${CONFIG.API_URL}/check_brand.php`, {
@@ -24,6 +26,7 @@ function CreateBrand() {
           icon: 'error',
           confirmButtonText: 'Aceptar',
         });
+        setLoading(false);
         return;
       }
 
@@ -58,6 +61,8 @@ function CreateBrand() {
         icon: 'error',
         confirmButtonText: 'Aceptar',
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -76,12 +81,11 @@ function CreateBrand() {
               required
             />
           </div>
-          <button
+          <LoadingButton
             type="submit"
-            className="w-full bg-indigo-500 text-white py-2 rounded-lg focus:outline-none hover:bg-indigo-600"
-          >
-            Crear Marca
-          </button>
+            text="Crear Marca"
+            loading={loading}
+          />
         </form>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import CONFIG from '../Config';
+import LoadingButton from '../components/LoadingButton';
 
 function Login() {
   const [usuario, setUsuario] = useState('');
@@ -22,7 +23,7 @@ function Login() {
       });
       const data = await response.json();
 
-      setLoading(false); 
+      setLoading(false);
 
       if (data.success) {
         localStorage.setItem('loggedIn', 'true');
@@ -32,7 +33,7 @@ function Login() {
           showConfirmButton: false,
           timer: 1500
         });
-        navigate('/dashboard'); 
+        navigate('/dashboard');
       } else {
         Swal.fire({
           icon: 'error',
@@ -40,7 +41,7 @@ function Login() {
           text: 'Por favor verifica tu usuario y contraseña',
         });
       }
-    } catch (error) {
+    } catch {
       setLoading(false);
       Swal.fire({
         icon: 'error',
@@ -75,37 +76,11 @@ function Login() {
               required
             />
           </div>
-          <button
+          <LoadingButton
             type="submit"
-            className="w-full bg-indigo-500 text-white py-2 rounded-lg focus:outline-none hover:bg-indigo-600"
-            disabled={loading}
-          >
-            {loading ? (
-              <span className="flex items-center justify-center">
-                <svg
-                  className="animate-spin h-5 w-5 mr-3"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8v8H4z"
-                  ></path>
-                </svg>
-                Cargando...
-              </span>
-            ) : (
-              'Ingresar'
-            )}
-          </button>
+            text="Ingresar"
+            loading={loading}
+          />
         </form>
       </div>
     </div>

@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 import CONFIG from '../Config';
+import LoadingButton from '../components/LoadingButton';
 
 function CreateCategory() {
   const [categoryName, setCategoryName] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const response = await fetch(`${CONFIG.API_URL}/create_category.php`, {
@@ -23,6 +26,7 @@ function CreateCategory() {
           icon: 'success',
           confirmButtonText: 'Aceptar',
         });
+        setCategoryName('');
       } else {
         Swal.fire({
           title: 'Error!',
@@ -39,6 +43,8 @@ function CreateCategory() {
         icon: 'error',
         confirmButtonText: 'Aceptar',
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -57,12 +63,11 @@ function CreateCategory() {
               required
             />
           </div>
-          <button
+          <LoadingButton
             type="submit"
-            className="w-full bg-indigo-500 text-white py-2 rounded-lg focus:outline-none hover:bg-indigo-600"
-          >
-            Crear Categoría
-          </button>
+            text="Crear Categoría"
+            loading={loading}
+          />
         </form>
       </div>
     </div>

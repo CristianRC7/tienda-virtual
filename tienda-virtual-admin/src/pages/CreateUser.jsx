@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 import CONFIG from '../Config';
+import LoadingButton from '../components/LoadingButton';
 
 function CreateUser() {
   const [username, setUsername] = useState('');
   const [fullName, setFullName] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const checkResponse = await fetch(`${CONFIG.API_URL}/check_user.php`, {
@@ -25,6 +28,7 @@ function CreateUser() {
           icon: 'error',
           confirmButtonText: 'Aceptar',
         });
+        setLoading(false);
         return;
       }
 
@@ -65,6 +69,8 @@ function CreateUser() {
         icon: 'error',
         confirmButtonText: 'Aceptar',
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -103,12 +109,11 @@ function CreateUser() {
               required
             />
           </div>
-          <button
+          <LoadingButton
             type="submit"
-            className="w-full bg-indigo-500 text-white py-2 rounded-lg focus:outline-none hover:bg-indigo-600"
-          >
-            Crear Usuario
-          </button>
+            text="Crear Usuario"
+            loading={loading}
+          />
         </form>
       </div>
     </div>
