@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaBars, FaTimes, FaHome, FaPlus, FaUser, FaChevronDown, FaChevronRight } from 'react-icons/fa';
+import { FaBars, FaTimes, FaHome, FaPlus, FaUser, FaChevronDown, FaChevronRight, FaCog } from 'react-icons/fa';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [activeMenu, setActiveMenu] = useState(null);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -19,8 +19,8 @@ const Sidebar = () => {
     setIsOpen(false); 
   };
 
-  const toggleUserMenu = () => {
-    setIsUserMenuOpen(!isUserMenuOpen);
+  const toggleSubMenu = (menuName) => {
+    setActiveMenu(activeMenu === menuName ? null : menuName);
   };
 
   return (
@@ -40,29 +40,68 @@ const Sidebar = () => {
                 <FaHome className="mr-2" /> Dashboard
               </Link>
             </li>
-            <li>
-              <Link to="/createcategory" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
-                <FaPlus className="mr-2" /> Crear Categoría
-              </Link>
-            </li>
-            <li>
-              <Link to="/createbrand" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
-                <FaPlus className="mr-2" /> Crear Marca
-              </Link>
-            </li>
+
+            {/* Submenu para Category */}
             <li>
               <button
                 className="flex items-center p-2 w-full text-left hover:bg-gray-100"
-                onClick={toggleUserMenu}
+                onClick={() => toggleSubMenu('category')}
               >
-                <FaUser className="mr-2" /> Menu Usuarios
-                {isUserMenuOpen ? <FaChevronDown className="ml-auto" /> : <FaChevronRight className="ml-auto" />}
+                <FaPlus className="mr-2" /> Categoría
+                {activeMenu === 'category' ? <FaChevronDown className="ml-auto" /> : <FaChevronRight className="ml-auto" />}
               </button>
-              {/* Submenu */}
-              <div
-                className={`pl-8 mt-2 transition-all duration-300 ease-in-out ${isUserMenuOpen ? 'max-h-40' : 'max-h-0 overflow-hidden'}`}
+              {activeMenu === 'category' && (
+                <ul className="pl-8 mt-2">
+                  <li>
+                    <Link to="/createcategory" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
+                      <FaPlus className="mr-2" /> Crear Categoría
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/editcategory" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
+                      <FaCog className="mr-2" /> Editar Categoría
+                    </Link>
+                  </li>
+                </ul>
+              )}
+            </li>
+
+            {/* Submenu para Brand */}
+            <li>
+              <button
+                className="flex items-center p-2 w-full text-left hover:bg-gray-100"
+                onClick={() => toggleSubMenu('brand')}
               >
-                <ul className="transition-all duration-300 ease-in-out">
+                <FaPlus className="mr-2" /> Marca
+                {activeMenu === 'brand' ? <FaChevronDown className="ml-auto" /> : <FaChevronRight className="ml-auto" />}
+              </button>
+              {activeMenu === 'brand' && (
+                <ul className="pl-8 mt-2">
+                  <li>
+                    <Link to="/createbrand" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
+                      <FaPlus className="mr-2" /> Crear Marca
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/editbrand" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
+                      <FaCog className="mr-2" /> Editar Marca
+                    </Link>
+                  </li>
+                </ul>
+              )}
+            </li>
+
+            {/* Submenu para User */}
+            <li>
+              <button
+                className="flex items-center p-2 w-full text-left hover:bg-gray-100"
+                onClick={() => toggleSubMenu('user')}
+              >
+                <FaUser className="mr-2" /> Usuarios
+                {activeMenu === 'user' ? <FaChevronDown className="ml-auto" /> : <FaChevronRight className="ml-auto" />}
+              </button>
+              {activeMenu === 'user' && (
+                <ul className="pl-8 mt-2">
                   <li>
                     <Link to="/createuser" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
                       <FaPlus className="mr-2" /> Crear Usuario
@@ -70,13 +109,14 @@ const Sidebar = () => {
                   </li>
                   <li>
                     <Link to="/configureuser" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
-                      <FaUser className="mr-2" /> Configurar Usuario
+                      <FaCog className="mr-2" /> Configurar Usuario
                     </Link>
                   </li>
                 </ul>
-              </div>
+              )}
             </li>
           </ul>
+
           <button onClick={handleLogout} className="w-full text-center p-2 hover:bg-red-700 hover:text-white">
             Cerrar Sesión
           </button>
