@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import CONFIG from '../Config';
+import CONFIG from '../services/Config';
 import LoadingButton from '../components/LoadingButton';
 
 function Login() {

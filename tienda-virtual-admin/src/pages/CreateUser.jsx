@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
-import CONFIG from '../Config';
+import CONFIG from '../services/Config';
 import LoadingButton from '../components/LoadingButton';
 
 function CreateUser() {

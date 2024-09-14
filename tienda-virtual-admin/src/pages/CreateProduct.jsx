@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import Swal from 'sweetalert2';
 import LoadingButton from '../components/LoadingButton'; 
-import { getCategorias, getGeneros, getMarcas } from '../apiService'; 
-import CONFIG from '../Config';
+import { getCategorias, getGeneros, getMarcas } from '../services/apiService'; 
+import CONFIG from '../services/Config';
 
 function CreateProduct() {
   const [nombreProducto, setNombreProducto] = useState('');
