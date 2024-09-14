@@ -58,6 +58,7 @@ function CreateProduct() {
         text: 'Debes cargar al menos una imagen',
         icon: 'error',
         confirmButtonText: 'Aceptar',
+        timer: 3000,
       });
       return;
     }
