@@ -37,7 +37,7 @@ const Sidebar = () => {
           <ul>
             <li>
               <Link to="/dashboard" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
-                <FaHome className="mr-2" /> Dashboard
+                <FaHome className="mr-2" /> Inicio
               </Link>
             </li>
 
@@ -105,6 +105,30 @@ const Sidebar = () => {
                   <li>
                     <Link to="/createuser" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
                       <FaPlus className="mr-2" /> Crear Usuario
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/configureuser" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
+                      <FaCog className="mr-2" /> Configurar Usuario
+                    </Link>
+                  </li>
+                </ul>
+              )}
+            </li>
+            {/* Submenu para Products */}
+            <li>
+              <button
+                className="flex items-center p-2 w-full text-left hover:bg-gray-100"
+                onClick={() => toggleSubMenu('product')}
+              >
+                <FaUser className="mr-2" /> Productos
+                {activeMenu === 'product' ? <FaChevronDown className="ml-auto" /> : <FaChevronRight className="ml-auto" />}
+              </button>
+              {activeMenu === 'product' && (
+                <ul className="pl-8 mt-2">
+                  <li>
+                    <Link to="/createproduct" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
+                      <FaPlus className="mr-2" /> Crear Producto
                     </Link>
                   </li>
                   <li>

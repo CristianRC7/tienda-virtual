@@ -1,10 +1,11 @@
-import React from 'react';
+//import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import CreateCategory from './pages/CreateCategory';
 import CreateUser from './pages/CreateUser';
 import CreateBrand from './pages/CreateBrand';
+import CreateProduct from './pages/CreateProduct';
 import Layout from './components/Layout';
 
 function App() {
@@ -17,6 +18,8 @@ function App() {
         <Route path="/createcategory" element={<Layout><CreateCategory /></Layout>} />
         <Route path="/createuser" element={<Layout><CreateUser /></Layout>} />
         <Route path='/createbrand' element={<Layout><CreateBrand /></Layout>} />
+        <Route path='/createproduct' element={<Layout><CreateProduct /></Layout>} />
+
       </Routes>
     </Router>
   );
