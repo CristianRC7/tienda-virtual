@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaBars, FaTimes, FaHome, FaPlus, FaUser, FaChevronDown, FaChevronRight, FaCog } from 'react-icons/fa';
+import { FaBars, FaTimes, FaHome, FaPlus, FaUser, FaChevronDown, FaChevronRight, FaCog, FaTags, FaTachometerAlt, FaProductHunt } from 'react-icons/fa';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,7 +36,11 @@ const Sidebar = () => {
         <nav className="mt-4">
           <ul>
             <li>
-              <Link to="/dashboard" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
+              <Link 
+                to="/dashboard" 
+                className={`flex items-center p-2 hover:bg-gray-100 ${window.location.pathname === '/dashboard' ? 'bg-gray-200 text-blue-600' : ''}`} 
+                onClick={handleMenuClick}
+              >
                 <FaHome className="mr-2" /> Inicio
               </Link>
             </li>
@@ -44,100 +48,93 @@ const Sidebar = () => {
             {/* Submenu para Category */}
             <li>
               <button
-                className="flex items-center p-2 w-full text-left hover:bg-gray-100"
+                className={`flex items-center p-2 w-full text-left hover:bg-gray-100 ${activeMenu === 'category' ? 'bg-gray-200 text-blue-600' : ''}`}
                 onClick={() => toggleSubMenu('category')}
               >
-                <FaPlus className="mr-2" /> Categoría
+                <FaTags className="mr-2" /> Categoría
                 {activeMenu === 'category' ? <FaChevronDown className="ml-auto" /> : <FaChevronRight className="ml-auto" />}
               </button>
-              {activeMenu === 'category' && (
-                <ul className="pl-8 mt-2">
-                  <li>
-                    <Link to="/createcategory" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
-                      <FaPlus className="mr-2" /> Crear Categoría
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/editcategory" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
-                      <FaCog className="mr-2" /> Editar Categoría
-                    </Link>
-                  </li>
-                </ul>
-              )}
+              <ul className={`pl-8 mt-2 transition-transform duration-300 ${activeMenu === 'category' ? 'max-h-screen' : 'max-h-0 overflow-hidden'}`}>
+                <li>
+                  <Link to="/createcategory" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
+                    <FaPlus className="mr-2" /> Crear Categoría
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/editcategory" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
+                    <FaCog className="mr-2" /> Editar Categoría
+                  </Link>
+                </li>
+              </ul>
             </li>
 
             {/* Submenu para Brand */}
             <li>
               <button
-                className="flex items-center p-2 w-full text-left hover:bg-gray-100"
+                className={`flex items-center p-2 w-full text-left hover:bg-gray-100 ${activeMenu === 'brand' ? 'bg-gray-200 text-blue-600' : ''}`}
                 onClick={() => toggleSubMenu('brand')}
               >
-                <FaPlus className="mr-2" /> Marca
+                <FaProductHunt className="mr-2" /> Marca
                 {activeMenu === 'brand' ? <FaChevronDown className="ml-auto" /> : <FaChevronRight className="ml-auto" />}
               </button>
-              {activeMenu === 'brand' && (
-                <ul className="pl-8 mt-2">
-                  <li>
-                    <Link to="/createbrand" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
-                      <FaPlus className="mr-2" /> Crear Marca
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/editbrand" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
-                      <FaCog className="mr-2" /> Editar Marca
-                    </Link>
-                  </li>
-                </ul>
-              )}
+              <ul className={`pl-8 mt-2 transition-transform duration-300 ${activeMenu === 'brand' ? 'max-h-screen' : 'max-h-0 overflow-hidden'}`}>
+                <li>
+                  <Link to="/createbrand" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
+                    <FaPlus className="mr-2" /> Crear Marca
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/editbrand" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
+                    <FaCog className="mr-2" /> Editar Marca
+                  </Link>
+                </li>
+              </ul>
             </li>
 
             {/* Submenu para User */}
             <li>
               <button
-                className="flex items-center p-2 w-full text-left hover:bg-gray-100"
+                className={`flex items-center p-2 w-full text-left hover:bg-gray-100 ${activeMenu === 'user' ? 'bg-gray-200 text-blue-600' : ''}`}
                 onClick={() => toggleSubMenu('user')}
               >
                 <FaUser className="mr-2" /> Usuarios
                 {activeMenu === 'user' ? <FaChevronDown className="ml-auto" /> : <FaChevronRight className="ml-auto" />}
               </button>
-              {activeMenu === 'user' && (
-                <ul className="pl-8 mt-2">
-                  <li>
-                    <Link to="/createuser" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
-                      <FaPlus className="mr-2" /> Crear Usuario
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/configureuser" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
-                      <FaCog className="mr-2" /> Configurar Usuario
-                    </Link>
-                  </li>
-                </ul>
-              )}
+              <ul className={`pl-8 mt-2 transition-transform duration-300 ${activeMenu === 'user' ? 'max-h-screen' : 'max-h-0 overflow-hidden'}`}>
+                <li>
+                  <Link to="/createuser" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
+                    <FaPlus className="mr-2" /> Crear Usuario
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/configureuser" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
+                    <FaCog className="mr-2" /> Configurar Usuario
+                  </Link>
+                </li>
+              </ul>
             </li>
+            
             {/* Submenu para Products */}
             <li>
               <button
-                className="flex items-center p-2 w-full text-left hover:bg-gray-100"
+                className={`flex items-center p-2 w-full text-left hover:bg-gray-100 ${activeMenu === 'product' ? 'bg-gray-200 text-blue-600' : ''}`}
                 onClick={() => toggleSubMenu('product')}
               >
-                <FaUser className="mr-2" /> Productos
+                <FaProductHunt className="mr-2" /> Productos
                 {activeMenu === 'product' ? <FaChevronDown className="ml-auto" /> : <FaChevronRight className="ml-auto" />}
               </button>
-              {activeMenu === 'product' && (
-                <ul className="pl-8 mt-2">
-                  <li>
-                    <Link to="/createproduct" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
-                      <FaPlus className="mr-2" /> Crear Producto
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/configureuser" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
-                      <FaCog className="mr-2" /> Configurar Usuario
-                    </Link>
-                  </li>
-                </ul>
-              )}
+              <ul className={`pl-8 mt-2 transition-transform duration-300 ${activeMenu === 'product' ? 'max-h-screen' : 'max-h-0 overflow-hidden'}`}>
+                <li>
+                  <Link to="/createproduct" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
+                    <FaPlus className="mr-2" /> Crear Producto
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/editproduct" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
+                    <FaCog className="mr-2" /> Editar Producto
+                  </Link>
+                </li>
+              </ul>
             </li>
           </ul>
 
