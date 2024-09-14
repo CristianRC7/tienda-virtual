@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { MessageCircle, ShoppingCart } from 'lucide-react';
-import Swal from 'sweetalert2';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Modal from '../components/Modal';
 import Carousel from '../components/Carousel';
 import CONFIG from '../config';
@@ -66,29 +67,31 @@ const ProductsSection = () => {
     const productExists = cartItems.some(item => item.id === producto.id);
   
     if (productExists) {
-      Swal.fire({
-        title: 'Ya se encuentra en el carrito',
-        text: `${producto.nombre_producto} ya ha sido añadido al carrito.`,
-        icon: 'info',
-        confirmButtonText: 'OK',
-        confirmButtonColor: '#007bff',
-        timer: 4000,
+      toast.info(`${producto.nombre_producto} ya ha sido añadido al carrito.`, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "dark",
       });
     } else {
       cartItems.push(producto);
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
   
-      Swal.fire({
-        title: 'Añadido al carrito',
-        text: `${producto.nombre_producto} ha sido añadido al carrito.`,
-        icon: 'success',
-        confirmButtonText: 'OK',
-        confirmButtonColor: '#007bff',
-        timer: 4000,
+      toast.success(`${producto.nombre_producto} ha sido añadido al carrito.`, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "dark",
       });
     }
   };
-  
+
   return (
     <section id="productos" className="py-12 bg-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -186,6 +189,7 @@ const ProductsSection = () => {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal} images={selectedImages} />
+      <ToastContainer />
     </section>
   );
 };

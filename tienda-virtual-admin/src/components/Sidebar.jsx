@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaBars, FaTimes, FaHome, FaPlus, FaUser, FaChevronDown, FaChevronRight, FaCog, FaTags, FaTachometerAlt, FaProductHunt } from 'react-icons/fa';
+import { FaBars, FaTimes, FaHome, FaPlus, FaUser, FaChevronDown, FaChevronRight, FaCog, FaTags, FaSignOutAlt, FaProductHunt } from 'react-icons/fa';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -138,8 +138,8 @@ const Sidebar = () => {
             </li>
           </ul>
 
-          <button onClick={handleLogout} className="w-full text-center p-2 hover:bg-red-700 hover:text-white">
-            Cerrar Sesión
+          <button onClick={handleLogout} className="w-full text-center p-2 mt-4 hover:bg-red-700 hover:text-white flex items-center justify-center">
+            <FaSignOutAlt className="mr-2" /> Cerrar Sesión
           </button>
         </nav>
       </div>
