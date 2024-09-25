@@ -12,7 +12,7 @@ const Sidebar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('loggedIn');
-    window.location.href = '/'; 
+    window.location.href = '/login'; 
   };
 
   const handleMenuClick = () => {
