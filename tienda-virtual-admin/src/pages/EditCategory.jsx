@@ -7,22 +7,20 @@ function EditCategory() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredCategories, setFilteredCategories] = useState([]);
 
-  // Cargar todas las categorías
   useEffect(() => {
     fetchCategories();
   }, []);
 
   const fetchCategories = () => {
-    fetch(`${CONFIG.CATEGORY}/get_category.php`) // Actualiza con tu ruta
+    fetch(`${CONFIG.API_URL}/get_category.php`) 
       .then((response) => response.json())
       .then((data) => {
         setCategories(data);
-        setFilteredCategories(data); // Mostrar todas las categorías al inicio
+        setFilteredCategories(data); 
       })
       .catch((error) => console.error('Error fetching categories:', error));
   };
 
-  // Filtrar categorías por nombre
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
     const filtered = categories.filter((category) =>
@@ -31,7 +29,6 @@ function EditCategory() {
     setFilteredCategories(filtered);
   };
 
-  // Eliminar categoría
   const handleDelete = (id) => {
     Swal.fire({
       title: '¿Estás seguro?',
@@ -42,7 +39,7 @@ function EditCategory() {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`${CONFIG.CATEGORY}/delete_category.php?id=${id}`, { method: 'DELETE' })
+        fetch(`${CONFIG.API_URL}/delete_category.php?id=${id}`, { method: 'DELETE' })
           .then(() => {
             fetchCategories();
             Swal.fire('Eliminado!', 'La categoría ha sido eliminada.', 'success');
@@ -52,7 +49,6 @@ function EditCategory() {
     });
   };
 
-  // Editar categoría (abrir SweetAlert para actualizar)
   const handleEdit = (category) => {
     Swal.fire({
       title: 'Editar Categoría',
@@ -66,7 +62,7 @@ function EditCategory() {
           Swal.showValidationMessage('El nombre no puede estar vacío');
           return;
         }
-        return fetch(`${CONFIG.CATEGORY}/update_category.php`, {
+        return fetch(`${CONFIG.API_URL}/update_category.php`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

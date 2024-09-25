@@ -5,6 +5,7 @@ import CreateCategory from './pages/CreateCategory';
 import EditCategory from './pages/EditCategory';
 import CreateUser from './pages/CreateUser';
 import CreateBrand from './pages/CreateBrand';
+import EditBrand from './pages/EditBrand';
 import CreateProduct from './pages/CreateProduct';
 import Layout from './components/Layout';
 
@@ -20,6 +21,7 @@ function App() {
         <Route path="/editcategory/" element={<Layout><EditCategory /></Layout>} />
         <Route path="/createuser" element={<Layout><CreateUser /></Layout>} />
         <Route path='/createbrand' element={<Layout><CreateBrand /></Layout>} />
+        <Route path='/editbrand' element={<Layout><EditBrand /></Layout>} />
         <Route path='/createproduct' element={<Layout><CreateProduct /></Layout>} />
 
         <Route path="*" element={<Navigate to="/login" />} />
