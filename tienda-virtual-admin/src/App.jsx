@@ -8,6 +8,7 @@ import ConfigureUser from './pages/ConfigureUser';
 import CreateBrand from './pages/CreateBrand';
 import EditBrand from './pages/EditBrand';
 import CreateProduct from './pages/CreateProduct';
+import EditProduct from './pages/EditProduct';
 import Layout from './components/Layout';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path='/createbrand' element={<Layout><CreateBrand /></Layout>} />
         <Route path='/editbrand' element={<Layout><EditBrand /></Layout>} />
         <Route path='/createproduct' element={<Layout><CreateProduct /></Layout>} />
+        <Route path='/editproduct' element={<Layout><EditProduct /></Layout>} />
 
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>

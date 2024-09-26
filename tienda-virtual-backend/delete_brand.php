@@ -1,6 +1,6 @@
 <?php
-include './conexion.php';
-include './cors.php';
+include 'conexion.php';
+include 'cors.php';
 
 $id = $_GET['id'];
 

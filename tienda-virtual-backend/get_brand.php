@@ -1,6 +1,6 @@
 <?php
-include_once './conexion.php';
-include_once './cors.php';
+include_once 'conexion.php';
+include_once 'cors.php';
 
 $query = "SELECT * FROM marcas";
 $result = $conexion->query($query);
