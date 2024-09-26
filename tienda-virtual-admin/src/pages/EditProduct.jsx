@@ -57,7 +57,6 @@ function EditProduct() {
   };
 
   const handleEdit = (product) => {
-    // Create a dropdown for each foreign key relationship (category, gender, brand)
     const categoryOptions = categories.map(category => `<option value="${category.id}" ${category.nombre_categoria === product.nombre_categoria ? 'selected' : ''}>${category.nombre_categoria}</option>`).join('');
     const genderOptions = genders.map(gender => `<option value="${gender.id}" ${gender.genero === product.genero ? 'selected' : ''}>${gender.genero}</option>`).join('');
     const brandOptions = brands.map(brand => `<option value="${brand.id}" ${brand.nombre_marca === product.nombre_marca ? 'selected' : ''}>${brand.nombre_marca}</option>`).join('');
@@ -101,7 +100,7 @@ function EditProduct() {
           const data = await response.json();
           if (data.success) {
             Swal.fire('Éxito', 'Producto actualizado con éxito', 'success');
-            fetchProducts(); // Refetch the product list
+            fetchProducts();
           } else {
             Swal.fire('Error', 'Error al actualizar el producto', 'error');
           }
@@ -112,49 +111,123 @@ function EditProduct() {
     });
   };
 
-  const filteredProducts = products.filter(product =>
-    product.nombre_producto.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleViewImages = async (product) => {
+    try {
+      const response = await fetch(`${CONFIG.API_URL}/get_image.php?id_producto=${product.id}`);
+      const images = await response.json();
+
+      const imageElements = images.map(image => `
+        <div class="image-container flex items-center space-x-2 mb-2">
+          <img src="${CONFIG.API_URL}/images/${image.url_imagen}" alt="Producto" class="w-24 h-24 object-cover">
+          <button class="delete-image bg-red-500 text-white px-2 py-1 rounded" data-id="${image.id}">Eliminar</button>
+        </div>
+      `).join('');
+
+      Swal.fire({
+        title: 'Imágenes del Producto',
+        html: `
+          <div>${imageElements}</div>
+          <input type="file" id="new_image" class="swal2-input">
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Subir Imagen',
+        preConfirm: () => {
+          const newImage = document.getElementById('new_image').files[0];
+          return newImage;
+        }
+      }).then(async (result) => {
+        if (result.isConfirmed && result.value) {
+          const formData = new FormData();
+          formData.append('imagen', result.value);
+          formData.append('id_producto', product.id);
+
+          const uploadResponse = await fetch(`${CONFIG.API_URL}/upload_image.php`, {
+            method: 'POST',
+            body: formData,
+          });
+
+          const uploadData = await uploadResponse.json();
+          if (uploadData.success) {
+            Swal.fire('Éxito', 'Imagen subida con éxito', 'success');
+            handleViewImages(product); 
+          } else {
+            Swal.fire('Error', 'Error al subir la imagen', 'error');
+          }
+        }
+      });
+
+      document.querySelectorAll('.delete-image').forEach(button => {
+        button.addEventListener('click', async (e) => {
+          const imageId = e.target.getAttribute('data-id');
+          const deleteResponse = await fetch(`${CONFIG.API_URL}/delete_image.php`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id_imagen: imageId }),
+          });
+
+          const deleteData = await deleteResponse.json();
+          if (deleteData.success) {
+            Swal.fire('Éxito', 'Imagen eliminada con éxito', 'success');
+            handleViewImages(product); // Refresh images
+          } else {
+            Swal.fire('Error', 'Error al eliminar la imagen', 'error');
+          }
+        });
+      });
+    } catch (error) {
+      console.error('Error fetching images:', error);
+    }
+  };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Buscar y Editar Productos</h1>
-      
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">Editar Producto</h1>
       <input
         type="text"
-        placeholder="Buscar por nombre de producto"
-        className="mb-4 p-2 border rounded w-full"
+        placeholder="Buscar producto"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
+        className="mb-4 p-2 border rounded w-full"
       />
-      
-      <table className="min-w-full bg-white border border-gray-300">
+      <table className="min-w-full bg-white border border-gray-200">
         <thead>
-          <tr>
-            <th className="py-2 px-4 border-b">Nombre Producto</th>
-            <th className="py-2 px-4 border-b">Marca</th>
-            <th className="py-2 px-4 border-b">Categoría</th>
-            <th className="py-2 px-4 border-b">Género</th>
-            <th className="py-2 px-4 border-b">Acciones</th>
+          <tr className="bg-gray-200">
+            <th className="border px-4 py-2">ID</th>
+            <th className="border px-4 py-2">Nombre</th>
+            <th className="border px-4 py-2">Categoría</th>
+            <th className="border px-4 py-2">Género</th>
+            <th className="border px-4 py-2">Marca</th>
+            <th className="border px-4 py-2">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {filteredProducts.map((product) => (
-            <tr key={product.id}>
-              <td className="py-2 px-4 border-b">{product.nombre_producto}</td>
-              <td className="py-2 px-4 border-b">{product.nombre_marca}</td>
-              <td className="py-2 px-4 border-b">{product.nombre_categoria}</td>
-              <td className="py-2 px-4 border-b">{product.genero}</td>
-              <td className="py-2 px-4 border-b">
-                <button
-                  className="bg-blue-500 text-white px-4 py-2 rounded"
-                  onClick={() => handleEdit(product)}
-                >
-                  Editar
-                </button>
-              </td>
-            </tr>
-          ))}
+          {products
+            .filter(product => product.nombre_producto.toLowerCase().includes(searchTerm.toLowerCase()))
+            .map(product => (
+              <tr key={product.id} className="hover:bg-gray-100">
+                <td className="border px-4 py-2">{product.id}</td>
+                <td className="border px-4 py-2">{product.nombre_producto}</td>
+                <td className="border px-4 py-2">{product.nombre_categoria}</td>
+                <td className="border px-4 py-2">{product.genero}</td>
+                <td className="border px-4 py-2">{product.nombre_marca}</td>
+                <td className="border px-4 py-2">
+                  <button 
+                    onClick={() => handleEdit(product)} 
+                    className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+                  >
+                    Editar
+                  </button>
+                  <button 
+                    onClick={() => handleViewImages(product)} 
+                    className="bg-green-500 text-white px-4 py-2 rounded"
+                  >
+                    Ver Imágenes
+                  </button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>
