@@ -58,6 +58,8 @@ function EditProduct() {
     }
   };
 
+  
+
   const handleEdit = (product) => {
     const categoryOptions = categories.map(category => `<option value="${category.id}" ${category.nombre_categoria === product.nombre_categoria ? 'selected' : ''}>${category.nombre_categoria}</option>`).join('');
     const genderOptions = genders.map(gender => `<option value="${gender.id}" ${gender.genero === product.genero ? 'selected' : ''}>${gender.genero}</option>`).join('');
@@ -113,6 +115,7 @@ function EditProduct() {
     });
   };
 
+  
 
   const handleViewImages = async (product) => {
     try {
@@ -288,6 +291,7 @@ function EditProduct() {
                 >
                   Ver Imágenes
                 </button>
+                
               </td>
             </tr>
           ))}

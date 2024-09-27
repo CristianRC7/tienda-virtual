@@ -134,6 +134,11 @@ const Sidebar = () => {
                     <FaCog className="mr-2" /> Editar Producto
                   </Link>
                 </li>
+                <li>
+                  <Link to="/deleteproduct" className="flex items-center p-2 hover:bg-gray-100" onClick={handleMenuClick}>
+                    <FaCog className="mr-2" /> Elimnar Producto
+                  </Link>
+                </li>
               </ul>
             </li>
           </ul>
