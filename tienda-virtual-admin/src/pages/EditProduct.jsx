@@ -154,18 +154,17 @@ function EditProduct() {
             document.getElementById('prev-btn').addEventListener('click', () => {
               if (currentPage > 1) {
                 currentPage--;
-                showImageModal();  // Re-render the modal
+                showImageModal();  
               }
             });
   
             document.getElementById('next-btn').addEventListener('click', () => {
               if (currentPage < totalPages) {
                 currentPage++;
-                showImageModal();  // Re-render the modal
+                showImageModal(); 
               }
             });
   
-            // Attach delete event listeners
             document.querySelectorAll('.delete-image').forEach(button => {
               button.addEventListener('click', async (e) => {
                 const imageId = e.target.getAttribute('data-id');
@@ -188,7 +187,7 @@ function EditProduct() {
                   const deleteData = await deleteResponse.json();
                   if (deleteData.success) {
                     Swal.fire('Éxito', 'Imagen eliminada con éxito', 'success');
-                    handleViewImages(product);  // Refresh the images after deletion
+                    handleViewImages(product);  
                   } else {
                     Swal.fire('Error', deleteData.message || 'Error al eliminar la imagen', 'error');
                   }
@@ -210,7 +209,7 @@ function EditProduct() {
             const uploadData = await uploadResponse.json();
             if (uploadData.success) {
               Swal.fire('Éxito', 'Imagen subida con éxito', 'success');
-              handleViewImages(product);  // Refresh the images after upload
+              handleViewImages(product);  
             } else {
               Swal.fire('Error', 'Error al subir la imagen', 'error');
             }
