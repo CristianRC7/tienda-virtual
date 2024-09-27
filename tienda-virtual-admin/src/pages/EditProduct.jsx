@@ -8,6 +8,8 @@ function EditProduct() {
   const [genders, setGenders] = useState([]);
   const [brands, setBrands] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 10;
 
   useEffect(() => {
     fetchProducts();
@@ -110,6 +112,7 @@ function EditProduct() {
       }
     });
   };
+
 
   const handleViewImages = async (product) => {
     try {
@@ -222,6 +225,26 @@ function EditProduct() {
       console.error('Error fetching images:', error);
     }
   };
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products
+    .filter(product => product.nombre_producto.toLowerCase().includes(searchTerm.toLowerCase()))
+    .slice(indexOfFirstProduct, indexOfLastProduct);
+
+  const totalPages = Math.ceil(products.length / productsPerPage);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+  
 
   return (
     <div className="p-4">
@@ -245,33 +268,48 @@ function EditProduct() {
           </tr>
         </thead>
         <tbody>
-          {products
-            .filter(product => product.nombre_producto.toLowerCase().includes(searchTerm.toLowerCase()))
-            .map(product => (
-              <tr key={product.id} className="hover:bg-gray-100">
-                <td className="border px-4 py-2">{product.id}</td>
-                <td className="border px-4 py-2">{product.nombre_producto}</td>
-                <td className="border px-4 py-2">{product.nombre_categoria}</td>
-                <td className="border px-4 py-2">{product.genero}</td>
-                <td className="border px-4 py-2">{product.nombre_marca}</td>
-                <td className="border px-4 py-2">
-                  <button 
-                    onClick={() => handleEdit(product)} 
-                    className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
-                  >
-                    Editar
-                  </button>
-                  <button 
-                    onClick={() => handleViewImages(product)} 
-                    className="bg-green-500 text-white px-4 py-2 rounded"
-                  >
-                    Ver Imágenes
-                  </button>
-                </td>
-              </tr>
-            ))}
+          {currentProducts.map(product => (
+            <tr key={product.id} className="hover:bg-gray-100">
+              <td className="border px-4 py-2">{product.id}</td>
+              <td className="border px-4 py-2">{product.nombre_producto}</td>
+              <td className="border px-4 py-2">{product.nombre_categoria}</td>
+              <td className="border px-4 py-2">{product.genero}</td>
+              <td className="border px-4 py-2">{product.nombre_marca}</td>
+              <td className="border px-4 py-2">
+                <button 
+                  onClick={() => handleEdit(product)} 
+                  className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+                >
+                  Editar
+                </button>
+                <button 
+                  onClick={() => handleViewImages(product)} 
+                  className="bg-green-500 text-white px-4 py-2 rounded"
+                >
+                  Ver Imágenes
+                </button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
+      <div className="flex justify-between mt-4">
+        <button 
+          onClick={handlePreviousPage} 
+          className={`px-4 py-2 bg-gray-500 text-white rounded ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={currentPage === 1}
+        >
+          Anterior
+        </button>
+        <span className="text-gray-700">Página {currentPage} de {totalPages}</span>
+        <button 
+          onClick={handleNextPage} 
+          className={`px-4 py-2 bg-gray-500 text-white rounded ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={currentPage === totalPages}
+        >
+          Siguiente
+        </button>
+      </div>
     </div>
   );
 }
