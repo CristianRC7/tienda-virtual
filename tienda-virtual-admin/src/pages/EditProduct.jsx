@@ -115,67 +115,110 @@ function EditProduct() {
     try {
       const response = await fetch(`${CONFIG.API_URL}/get_image.php?id_producto=${product.id}`);
       const images = await response.json();
+      
+      let currentPage = 1;
+      const imagesPerPage = 3;
+      const totalPages = Math.ceil(images.length / imagesPerPage);
   
-      const imageElements = images.map(image => `
-        <div class="image-container flex items-center space-x-2 mb-2">
-          <img src="${CONFIG.API_URL}/images/${image.url_imagen}" alt="Producto" class="w-24 h-24 object-cover">
-          <button class="delete-image bg-red-500 text-white px-2 py-1 rounded" data-id="${image.id}">Eliminar</button>
-        </div>
-      `).join('');
+      const renderImages = () => {
+        const startIndex = (currentPage - 1) * imagesPerPage;
+        const endIndex = startIndex + imagesPerPage;
+        const paginatedImages = images.slice(startIndex, endIndex);
+        
+        return paginatedImages.map(image => `
+          <div class="image-container flex items-center space-x-2 mb-2">
+            <img src="${CONFIG.API_URL}/images/${image.url_imagen}" alt="Producto" class="w-24 h-24 object-cover">
+            <button class="delete-image bg-red-500 text-white px-2 py-1 rounded" data-id="${image.id}">Eliminar</button>
+          </div>
+        `).join('');
+      };
   
-      Swal.fire({
-        title: 'Imágenes del Producto',
-        html: `
-          <div>${imageElements}</div>
-          <input type="file" id="new_image" class="swal2-input w-32 h-8" style="height: auto; padding: 0.2rem; font-size: 0.875rem;">
-        `,
-        showCancelButton: true,
-        confirmButtonText: 'Subir Imagen',
-        preConfirm: () => {
-          const newImage = document.getElementById('new_image').files[0];
-          return newImage;
-        }
-      }).then(async (result) => {
-        if (result.isConfirmed && result.value) {
-          const formData = new FormData();
-          formData.append('imagen', result.value);
-          formData.append('id_producto', product.id);
+      const showImageModal = () => {
+        Swal.fire({
+          title: `Imágenes del Producto (Página ${currentPage} de ${totalPages})`,
+          html: `
+            <div id="image-content">${renderImages()}</div>
+            <div class="flex justify-between mt-4">
+              <button id="prev-btn" class="bg-blue-500 text-white px-4 py-2 rounded" ${currentPage === 1 ? 'disabled' : ''}>Anterior</button>
+              <input type="file" id="new_image" class="swal2-input w-32 h-8" style="height: auto; padding: 0.2rem; font-size: 0.875rem;">
+              <button id="next-btn" class="bg-blue-500 text-white px-4 py-2 rounded" ${currentPage === totalPages ? 'disabled' : ''}>Siguiente</button>
+            </div>
+          `,
+          showCancelButton: true,
+          confirmButtonText: 'Subir Imagen',
+          preConfirm: () => {
+            const newImage = document.getElementById('new_image').files[0];
+            return newImage;
+          },
+          didRender: () => {
+            document.getElementById('prev-btn').addEventListener('click', () => {
+              if (currentPage > 1) {
+                currentPage--;
+                showImageModal();  // Re-render the modal
+              }
+            });
   
-          const uploadResponse = await fetch(`${CONFIG.API_URL}/upload_image.php`, {
-            method: 'POST',
-            body: formData,
-          });
+            document.getElementById('next-btn').addEventListener('click', () => {
+              if (currentPage < totalPages) {
+                currentPage++;
+                showImageModal();  // Re-render the modal
+              }
+            });
   
-          const uploadData = await uploadResponse.json();
-          if (uploadData.success) {
-            Swal.fire('Éxito', 'Imagen subida con éxito', 'success');
-            handleViewImages(product); 
-          } else {
-            Swal.fire('Error', 'Error al subir la imagen', 'error');
+            // Attach delete event listeners
+            document.querySelectorAll('.delete-image').forEach(button => {
+              button.addEventListener('click', async (e) => {
+                const imageId = e.target.getAttribute('data-id');
+                const confirmDelete = await Swal.fire({
+                  title: '¿Estás seguro?',
+                  text: "¡Esta acción no se puede deshacer!",
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonText: 'Sí, eliminar',
+                  cancelButtonText: 'Cancelar'
+                });
+                if (confirmDelete.isConfirmed) {
+                  const deleteResponse = await fetch(`${CONFIG.API_URL}/delete_image.php`, {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id_imagen: imageId }),
+                  });
+                  const deleteData = await deleteResponse.json();
+                  if (deleteData.success) {
+                    Swal.fire('Éxito', 'Imagen eliminada con éxito', 'success');
+                    handleViewImages(product);  // Refresh the images after deletion
+                  } else {
+                    Swal.fire('Error', deleteData.message || 'Error al eliminar la imagen', 'error');
+                  }
+                }
+              });
+            });
           }
-        }
-      });
+        }).then(async (result) => {
+          if (result.isConfirmed && result.value) {
+            const formData = new FormData();
+            formData.append('imagen', result.value);
+            formData.append('id_producto', product.id);
   
-      document.querySelectorAll('.delete-image').forEach(button => {
-        button.addEventListener('click', async (e) => {
-          const imageId = e.target.getAttribute('data-id');
-          const deleteResponse = await fetch(`${CONFIG.API_URL}/delete_image.php`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id_imagen: imageId }),
-          });
+            const uploadResponse = await fetch(`${CONFIG.API_URL}/upload_image.php`, {
+              method: 'POST',
+              body: formData,
+            });
   
-          const deleteData = await deleteResponse.json();
-          if (deleteData.success) {
-            Swal.fire('Éxito', 'Imagen eliminada con éxito', 'success');
-            handleViewImages(product);
-          } else {
-            Swal.fire('Error', 'Error al eliminar la imagen', 'error');
+            const uploadData = await uploadResponse.json();
+            if (uploadData.success) {
+              Swal.fire('Éxito', 'Imagen subida con éxito', 'success');
+              handleViewImages(product);  // Refresh the images after upload
+            } else {
+              Swal.fire('Error', 'Error al subir la imagen', 'error');
+            }
           }
         });
-      });
+      };
+  
+      showImageModal();
     } catch (error) {
       console.error('Error fetching images:', error);
     }
