@@ -115,19 +115,19 @@ function EditProduct() {
     try {
       const response = await fetch(`${CONFIG.API_URL}/get_image.php?id_producto=${product.id}`);
       const images = await response.json();
-
+  
       const imageElements = images.map(image => `
         <div class="image-container flex items-center space-x-2 mb-2">
           <img src="${CONFIG.API_URL}/images/${image.url_imagen}" alt="Producto" class="w-24 h-24 object-cover">
           <button class="delete-image bg-red-500 text-white px-2 py-1 rounded" data-id="${image.id}">Eliminar</button>
         </div>
       `).join('');
-
+  
       Swal.fire({
         title: 'Imágenes del Producto',
         html: `
           <div>${imageElements}</div>
-          <input type="file" id="new_image" class="swal2-input">
+          <input type="file" id="new_image" class="swal2-input w-32 h-8" style="height: auto; padding: 0.2rem; font-size: 0.875rem;">
         `,
         showCancelButton: true,
         confirmButtonText: 'Subir Imagen',
@@ -140,12 +140,12 @@ function EditProduct() {
           const formData = new FormData();
           formData.append('imagen', result.value);
           formData.append('id_producto', product.id);
-
+  
           const uploadResponse = await fetch(`${CONFIG.API_URL}/upload_image.php`, {
             method: 'POST',
             body: formData,
           });
-
+  
           const uploadData = await uploadResponse.json();
           if (uploadData.success) {
             Swal.fire('Éxito', 'Imagen subida con éxito', 'success');
@@ -155,7 +155,7 @@ function EditProduct() {
           }
         }
       });
-
+  
       document.querySelectorAll('.delete-image').forEach(button => {
         button.addEventListener('click', async (e) => {
           const imageId = e.target.getAttribute('data-id');
@@ -166,11 +166,11 @@ function EditProduct() {
             },
             body: JSON.stringify({ id_imagen: imageId }),
           });
-
+  
           const deleteData = await deleteResponse.json();
           if (deleteData.success) {
             Swal.fire('Éxito', 'Imagen eliminada con éxito', 'success');
-            handleViewImages(product); // Refresh images
+            handleViewImages(product);
           } else {
             Swal.fire('Error', 'Error al eliminar la imagen', 'error');
           }
