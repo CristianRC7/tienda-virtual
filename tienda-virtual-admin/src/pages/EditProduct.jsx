@@ -84,7 +84,7 @@ function EditProduct() {
           } else {
             Swal.fire('Error', data.message || 'Error eliminando el producto Verifique si contiene imagenes', 'error');
           }
-        } catch (error) {
+        } catch {
           Swal.fire('Error', 'Error eliminando el producto Verifique si contiene imagenes', 'error');
         }
       }
@@ -124,7 +124,7 @@ function EditProduct() {
             id_genero: result.value.id_genero,
             id_marca: result.value.id_marca,
           };
-
+      
           const response = await fetch(`${CONFIG.API_URL}/update_product.php`, {
             method: 'POST',
             headers: {
@@ -132,7 +132,7 @@ function EditProduct() {
             },
             body: JSON.stringify(updatedProduct),
           });
-
+      
           const data = await response.json();
           if (data.success) {
             Swal.fire('Éxito', 'Producto actualizado con éxito', 'success');
@@ -140,7 +140,7 @@ function EditProduct() {
           } else {
             Swal.fire('Error', 'Error al actualizar el producto', 'error');
           }
-        } catch (error) {
+        } catch {
           Swal.fire('Error', 'Ocurrió un error', 'error');
         }
       }
