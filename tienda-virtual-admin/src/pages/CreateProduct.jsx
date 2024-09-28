@@ -13,6 +13,7 @@ function CreateProduct() {
   const [categorias, setCategorias] = useState([]);
   const [generos, setGeneros] = useState([]);
   const [marcas, setMarcas] = useState([]);
+  const [precio, setPrecio] = useState(''); // New state for price
   const [loading, setLoading] = useState(false);
 
   const fileInputRef = useRef(null); 
@@ -49,6 +50,14 @@ function CreateProduct() {
     }
   };
 
+  const handlePrecioChange = (e) => {
+    const value = e.target.value;
+    // Ensure only numbers and a decimal point can be entered
+    if (/^\d*\.?\d*$/.test(value)) {
+      setPrecio(value);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -63,6 +72,17 @@ function CreateProduct() {
       return;
     }
 
+    if (precio === '') {
+      Swal.fire({
+        title: 'Error',
+        text: 'Debes ingresar un precio',
+        icon: 'error',
+        confirmButtonText: 'Aceptar',
+        timer: 3000,
+      });
+      return;
+    }
+
     setLoading(true); 
 
     const formData = new FormData();
@@ -70,6 +90,7 @@ function CreateProduct() {
     formData.append('id_categoria', categoria);
     formData.append('id_genero', genero);
     formData.append('id_marca', marca);
+    formData.append('precio', precio); // Add price to form data
     imagenes.forEach((imagen, index) => {
       formData.append(`imagen_${index + 1}`, imagen);
     });
@@ -93,6 +114,7 @@ function CreateProduct() {
         setCategoria('');
         setGenero('');
         setMarca('');
+        setPrecio(''); // Reset price field
         setImagenes([]);
 
         fileInputRef.current.value = ''; 
@@ -179,6 +201,17 @@ function CreateProduct() {
                 </option>
               ))}
             </select>
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-2">Precio (en Bolivianos)</label>
+            <input
+              type="text"
+              value={precio}
+              onChange={handlePrecioChange}
+              placeholder="Ingrese el precio"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-indigo-500"
+              required
+            />
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 mb-2">Imágenes (máximo 3)</label>

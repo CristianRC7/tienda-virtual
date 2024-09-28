@@ -6,6 +6,7 @@ $nombre_producto = $_POST['nombre_producto'];
 $id_categoria = $_POST['id_categoria'];
 $id_genero = $_POST['id_genero'];
 $id_marca = $_POST['id_marca'];
+$precio = $_POST['precio'];
 
 $imagenes = [];
 for ($i = 1; $i <= 3; $i++) {
@@ -23,10 +24,9 @@ for ($i = 1; $i <= 3; $i++) {
     }
 }
 
-$query = "INSERT INTO productos (nombre_producto, id_categoria, id_genero, id_marca) VALUES (?, ?, ?, ?)";
+$query = "INSERT INTO productos (nombre_producto, id_categoria, id_genero, id_marca, precio) VALUES (?, ?, ?, ?, ?)";
 $stmt = $conexion->prepare($query);
-$stmt->bind_param("siii", $nombre_producto, $id_categoria, $id_genero, $id_marca);
-
+$stmt->bind_param("siisd", $nombre_producto, $id_categoria, $id_genero, $id_marca, $precio);
 if ($stmt->execute()) {
     $producto_id = $conexion->insert_id;
 
