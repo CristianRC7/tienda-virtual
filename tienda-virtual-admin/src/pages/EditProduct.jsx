@@ -311,25 +311,26 @@ function EditProduct() {
               <td className="border px-4 py-2">{product.genero}</td>
               <td className="border px-4 py-2">{product.nombre_marca}</td>
               <td className="border px-4 py-2">
-                <button 
+
+              <button 
                   onClick={() => handleEdit(product)} 
-                  className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+                  className="bg-blue-500 text-white px-4 py-2 rounded mr-2 hover:bg-blue-700"
                 >
                   Editar
                 </button>
                 <button 
                   onClick={() => handleViewImages(product)} 
-                  className="bg-green-500 text-white px-4 py-2 rounded mr-2"
+                  className="bg-green-500 text-white px-4 py-2 rounded mr-2 hover:bg-green-700"
                 >
                   Ver Imágenes
                 </button>
                 <button 
-                    onClick={() => handleDelete(product.id)} 
-                    className="bg-red-500 text-white px-4 py-2 rounded"
-                  >
-                    Eliminar
-                  </button>
-                
+                  onClick={() => handleDelete(product.id)} 
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
+                >
+                  Eliminar
+                </button>
+                  
               </td>
             </tr>
           ))}

@@ -7,7 +7,7 @@ function Dashboard() {
   useEffect(() => {
     const isLoggedIn = localStorage.getItem('loggedIn');
     if (!isLoggedIn) {
-      navigate('/');
+      navigate('/login');
     }
   }, [navigate]);
 
