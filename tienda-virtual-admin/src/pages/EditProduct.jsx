@@ -82,10 +82,10 @@ function EditProduct() {
             Swal.fire('Eliminado', 'El producto ha sido eliminado', 'success');
             fetchProducts(); 
           } else {
-            Swal.fire('Error', data.message || 'Error eliminando el producto', 'error');
+            Swal.fire('Error', data.message || 'Error eliminando el producto Verifique si contiene imagenes', 'error');
           }
         } catch (error) {
-          Swal.fire('Error', 'Error eliminando el producto', 'error');
+          Swal.fire('Error', 'Error eliminando el producto Verifique si contiene imagenes', 'error');
         }
       }
     });

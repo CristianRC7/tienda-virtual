@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode(['success' => true, 'message' => 'Producto eliminado con éxito']);
         } else {
             $errorInfo = $stmt->errorInfo();
-            echo json_encode(['success' => false, 'message' => 'Error eliminando el producto: ' . $errorInfo[2]]);
+            echo json_encode(['success' => false, 'message' => 'Error eliminando el producto Verifique si contiene imagenes: ' . $errorInfo[2]]);
         }
     } else {
         echo json_encode(['success' => false, 'message' => 'No se recibió el ID del producto']);
