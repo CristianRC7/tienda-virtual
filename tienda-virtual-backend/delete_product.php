@@ -11,7 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $query = "DELETE FROM productos WHERE id = ?";
         $stmt = $conexion->prepare($query);
 
-        // Ejecutar la consulta
         if ($stmt->execute([$id_producto])) {
             echo json_encode(['success' => true, 'message' => 'Producto eliminado con éxito']);
         } else {

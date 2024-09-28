@@ -58,7 +58,39 @@ function EditProduct() {
     }
   };
 
-  
+  const handleDelete = (id_producto) => {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¡Esta acción no se puede deshacer!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await fetch(`${CONFIG.API_URL}/delete_product.php`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id_producto }),
+          });
+          const data = await response.json();
+
+          if (data.success) {
+            Swal.fire('Eliminado', 'El producto ha sido eliminado', 'success');
+            fetchProducts(); 
+          } else {
+            Swal.fire('Error', data.message || 'Error eliminando el producto', 'error');
+          }
+        } catch (error) {
+          Swal.fire('Error', 'Error eliminando el producto', 'error');
+        }
+      }
+    });
+  };
+
 
   const handleEdit = (product) => {
     const categoryOptions = categories.map(category => `<option value="${category.id}" ${category.nombre_categoria === product.nombre_categoria ? 'selected' : ''}>${category.nombre_categoria}</option>`).join('');
@@ -287,10 +319,16 @@ function EditProduct() {
                 </button>
                 <button 
                   onClick={() => handleViewImages(product)} 
-                  className="bg-green-500 text-white px-4 py-2 rounded"
+                  className="bg-green-500 text-white px-4 py-2 rounded mr-2"
                 >
                   Ver Imágenes
                 </button>
+                <button 
+                    onClick={() => handleDelete(product.id)} 
+                    className="bg-red-500 text-white px-4 py-2 rounded"
+                  >
+                    Eliminar
+                  </button>
                 
               </td>
             </tr>

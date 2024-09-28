@@ -9,7 +9,6 @@ import CreateBrand from './pages/CreateBrand';
 import EditBrand from './pages/EditBrand';
 import CreateProduct from './pages/CreateProduct';
 import EditProduct from './pages/EditProduct';
-import DeleteProduct from './pages/DeleteProduct';
 import Layout from './components/Layout';
 
 function App() {
@@ -28,7 +27,6 @@ function App() {
         <Route path='/editbrand' element={<Layout><EditBrand /></Layout>} />
         <Route path='/createproduct' element={<Layout><CreateProduct /></Layout>} />
         <Route path='/editproduct' element={<Layout><EditProduct /></Layout>} />
-        <Route path='/deleteproduct' element={<Layout><DeleteProduct /></Layout>} />
 
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
