@@ -27,14 +27,12 @@ CREATE TABLE productos (
   id_categoria INT,
   id_genero INT,
   id_marca INT,
-  precio float not null,
+  precio DECIMAL(10,2);
   FOREIGN KEY (id_categoria) REFERENCES categorias(id),
   FOREIGN KEY (id_genero) REFERENCES generos(id),
   FOREIGN KEY (id_marca) REFERENCES marcas(id)
 );
 
-ALTER TABLE productos
-ADD COLUMN precio FLOAT NOT NULL;
 
 -- Crear la tabla de imágenes
 CREATE TABLE imagenes (

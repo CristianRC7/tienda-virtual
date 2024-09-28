@@ -13,7 +13,7 @@ function CreateProduct() {
   const [categorias, setCategorias] = useState([]);
   const [generos, setGeneros] = useState([]);
   const [marcas, setMarcas] = useState([]);
-  const [precio, setPrecio] = useState(''); // New state for price
+  const [precio, setPrecio] = useState(''); 
   const [loading, setLoading] = useState(false);
 
   const fileInputRef = useRef(null); 
