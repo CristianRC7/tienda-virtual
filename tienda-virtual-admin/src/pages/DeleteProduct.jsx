@@ -46,7 +46,7 @@ function DeleteProduct() {
           } else {
             Swal.fire('Error', data.message || 'Error eliminando el producto', 'error');
           }
-        } catch (error) {
+        } catch {
           Swal.fire('Error', 'Error eliminando el producto', 'error');
         }
       }

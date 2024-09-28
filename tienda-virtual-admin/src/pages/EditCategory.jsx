@@ -78,7 +78,7 @@ function EditCategory() {
               Swal.fire('Error', 'Hubo un problema actualizando la categoría.', 'error');
             }
           })
-          .catch((error) => {
+          .catch(() => {
             Swal.fire('Error', 'Hubo un problema actualizando la categoría.', 'error');
           });
       },

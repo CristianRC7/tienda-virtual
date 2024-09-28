@@ -142,6 +142,7 @@ const ProductsSection = () => {
                   <div className="p-6">
                     <h3 className="text-lg font-semibold text-gray-900">{capitalizeWords(producto.nombre_producto)}</h3>
                     <p className="text-gray-600">{capitalizeWords(`${producto.nombre_marca} - ${producto.genero}`)}</p>
+                    <p className="text-gray-700 font-bold mt-2">Precio: {producto.precio} Bs.</p>
 
                     <div className="mt-4 flex items-center justify-between">
                       <div className="flex items-center space-x-4">

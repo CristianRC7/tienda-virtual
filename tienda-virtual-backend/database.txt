@@ -27,10 +27,14 @@ CREATE TABLE productos (
   id_categoria INT,
   id_genero INT,
   id_marca INT,
+  precio float not null,
   FOREIGN KEY (id_categoria) REFERENCES categorias(id),
   FOREIGN KEY (id_genero) REFERENCES generos(id),
   FOREIGN KEY (id_marca) REFERENCES marcas(id)
 );
+
+ALTER TABLE productos
+ADD COLUMN precio FLOAT NOT NULL;
 
 -- Crear la tabla de imágenes
 CREATE TABLE imagenes (
@@ -39,6 +43,7 @@ CREATE TABLE imagenes (
   url_imagen VARCHAR(255) NOT NULL,
   FOREIGN KEY (id_producto) REFERENCES productos(id)
 );
+
 
 
 

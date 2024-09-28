@@ -78,7 +78,7 @@ function EditBrand() {
               Swal.fire('Error', 'Hubo un problema actualizando la marca.', 'error');
             }
           })
-          .catch((error) => {
+          .catch(() => {
             Swal.fire('Error', 'Hubo un problema actualizando la marca.', 'error');
           });
       },

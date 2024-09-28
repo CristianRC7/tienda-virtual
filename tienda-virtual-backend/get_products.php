@@ -1,10 +1,11 @@
 <?php
+// get_products.php
 include("conexion.php");
 include("cors.php");
 
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 
-$sql = "SELECT p.id, p.nombre_producto, c.nombre_categoria, m.nombre_marca, g.genero, i.url_imagen 
+$sql = "SELECT p.id, p.nombre_producto, FORMAT(p.precio, 2) AS precio, c.nombre_categoria, m.nombre_marca, g.genero, i.url_imagen 
         FROM productos p
         LEFT JOIN categorias c ON p.id_categoria = c.id
         LEFT JOIN marcas m ON p.id_marca = m.id
@@ -12,7 +13,7 @@ $sql = "SELECT p.id, p.nombre_producto, c.nombre_categoria, m.nombre_marca, g.ge
         LEFT JOIN imagenes i ON p.id = i.id_producto
         WHERE p.nombre_producto LIKE ? 
         OR m.nombre_marca LIKE ? 
-        OR c.nombre_categoria LIKE ?
+        OR c.nombre_categoria LIKE ? 
         OR g.genero LIKE ?";
 
 $stmt = $conexion->prepare($sql);
@@ -28,6 +29,7 @@ while ($row = $result->fetch_assoc()) {
         $productos[$id] = [
             'id' => $id,
             'nombre_producto' => $row['nombre_producto'],
+            'precio' => number_format($row['precio'], 2),
             'nombre_categoria' => $row['nombre_categoria'],
             'nombre_marca' => $row['nombre_marca'],
             'genero' => $row['genero'],
@@ -38,4 +40,5 @@ while ($row = $result->fetch_assoc()) {
 }
 
 echo json_encode(array_values($productos));
+
 ?>

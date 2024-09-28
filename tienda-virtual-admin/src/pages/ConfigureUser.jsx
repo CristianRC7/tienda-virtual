@@ -91,7 +91,7 @@ function ConfigureUser() {
               Swal.fire('Error', 'Hubo un problema actualizando el usuario.', 'error');
             }
           })
-          .catch((error) => {
+          .catch(() => {
             Swal.fire('Error', 'Hubo un problema actualizando el usuario.', 'error');
           });
       },
