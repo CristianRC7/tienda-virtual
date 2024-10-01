@@ -101,6 +101,7 @@ function EditProduct() {
       title: 'Editar Producto',
       html: `
         <input id="nombre_producto" class="swal2-input" placeholder="Nombre Producto" value="${product.nombre_producto}">
+        <input id="precio" class="swal2-input" type="number" step="0.01" placeholder="Precio" value="${product.precio}">
         <select id="categoria" class="swal2-input">${categoryOptions}</select>
         <select id="genero" class="swal2-input">${genderOptions}</select>
         <select id="marca" class="swal2-input">${brandOptions}</select>
@@ -108,11 +109,12 @@ function EditProduct() {
       focusConfirm: false,
       preConfirm: () => {
         const nombre_producto = document.getElementById('nombre_producto').value;
+        const precio = document.getElementById('precio').value;
         const id_categoria = document.getElementById('categoria').value;
         const id_genero = document.getElementById('genero').value;
         const id_marca = document.getElementById('marca').value;
-
-        return { nombre_producto, id_categoria, id_genero, id_marca };
+  
+        return { nombre_producto, precio, id_categoria, id_genero, id_marca }; 
       }
     }).then(async (result) => {
       if (result.isConfirmed) {
@@ -120,6 +122,7 @@ function EditProduct() {
           const updatedProduct = {
             id: product.id,
             nombre_producto: result.value.nombre_producto,
+            precio: result.value.precio,
             id_categoria: result.value.id_categoria,
             id_genero: result.value.id_genero,
             id_marca: result.value.id_marca,
@@ -292,16 +295,17 @@ function EditProduct() {
         className="mb-4 p-2 border rounded w-full"
       />
       <table className="min-w-full bg-white border border-gray-200">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="border px-4 py-2">ID</th>
-            <th className="border px-4 py-2">Nombre</th>
-            <th className="border px-4 py-2">Categoría</th>
-            <th className="border px-4 py-2">Género</th>
-            <th className="border px-4 py-2">Marca</th>
-            <th className="border px-4 py-2">Acciones</th>
-          </tr>
-        </thead>
+      <thead>
+    <tr className="bg-gray-200">
+      <th className="border px-4 py-2">ID</th>
+      <th className="border px-4 py-2">Nombre</th>
+      <th className="border px-4 py-2">Categoría</th>
+      <th className="border px-4 py-2">Género</th>
+      <th className="border px-4 py-2">Marca</th>
+      <th className="border px-4 py-2">Precio</th>
+      <th className="border px-4 py-2">Acciones</th>
+    </tr>
+  </thead>
         <tbody>
           {currentProducts.map(product => (
             <tr key={product.id} className="hover:bg-gray-100">
@@ -310,8 +314,8 @@ function EditProduct() {
               <td className="border px-4 py-2">{product.nombre_categoria}</td>
               <td className="border px-4 py-2">{product.genero}</td>
               <td className="border px-4 py-2">{product.nombre_marca}</td>
+              <td className="border px-4 py-2">{product.precio} Bs.</td>
               <td className="border px-4 py-2">
-
               <button 
                   onClick={() => handleEdit(product)} 
                   className="bg-blue-500 text-white px-4 py-2 rounded mr-2 hover:bg-blue-700"

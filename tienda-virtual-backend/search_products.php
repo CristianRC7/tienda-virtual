@@ -6,6 +6,7 @@ $query = "
   SELECT 
     p.id, 
     p.nombre_producto, 
+    p.precio,
     c.nombre_categoria, 
     g.genero, 
     m.nombre_marca
@@ -15,6 +16,7 @@ $query = "
   JOIN marcas m ON p.id_marca = m.id
   ORDER BY p.id ASC
 ";
+
 
 $result = $conexion->query($query);
 
